@@ -1,0 +1,16 @@
+name: IS DEV SERVER
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: [self-hosted,staging,stage,aws,is]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Start or restart Node.js application with PM2
+        run: bash deploy.sh

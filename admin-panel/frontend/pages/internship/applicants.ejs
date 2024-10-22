@@ -1,0 +1,563 @@
+<%- include('../layout/head') %>
+        <%- include('../layout/sidebar') %>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Topbar -->
+                <%- include('../layout/navbar') %>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Internship</h1>
+
+                    <!-- <div mt-4 mb-4 class="d-flex flex-row justify-content-end">
+                        <button type="button" class="btn btn-primary" onclick="addNewCollabTag()">Add collab tag</button>
+                    </div> -->
+
+
+                    <% if (!allApplicants || allApplicants.length === 0) { %>
+                        <div class="alert alert-info" role="alert">
+                            No Applicants available.
+                        </div>
+                    <% } else { %>
+
+                    <!-- DataTables -->
+                    <div class="card shadow mb-4 mt-4">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover text-center" style="min-height: 100px">
+                                    <h4 class="mb-3">Applicants List</h4>
+                                    <div class="row justify-content-between px-3">
+                                        <label>
+                                            <input type="search" class="search form-control form-control-md my-4" id="searchInput" placeholder="Search">
+                                        </label>
+
+                                        <!-- Dropdown starts here -->
+                                        <div class="dropdown" >
+
+                                            <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                                            Filter
+                                            </a>
+    
+                                            <div class="dropdown-menu fa-w-19 p-4" onclick="stopPropagation(event)" id="myDropdown" style="width: 500px;">
+    
+                                            <div class="row mb-3">
+                                               <!-- Role dropdown begins here -->
+                                                <div class="col-md-6 col-lg-6">
+                                                <select class="form-control filter-dropdown" id="jobTitle" data-column="2">
+                                                    <option value="" selected>Filter by Role</option>
+                                                    <% const roles = new Set(); %>
+                                                    <% allApplicants.forEach(function(allApplicants) { %>
+                                                    <% roles.add(allApplicants.jobTitle); %>
+                                                    <% }); %>
+                                                    <% roles.forEach(function(role) { %>
+                                                    <option value="<%= role %>"><%= role %></option>
+                                                    <% }); %>
+                                                </select>
+                                                </div>
+                                                <!-- Role dropdown end here -->
+    
+                                                <!-- Job Type dropdown begins here -->
+                                                <div class="col-md-6 col-lg-6">
+                                                    <select class="form-control filter-dropdown" id="jobPostingType" data-column="3">
+                                                        <option value="" selected>Filter by Job Type</option>
+                                                        <% const jobTypes = new Set(); %>
+                                                        <% allApplicants.forEach(function(allApplicant) { %>
+                                                        <% jobTypes.add(allApplicant.jobPostingType); %>
+                                                        <% }); %>
+                                                        <% jobTypes.forEach(function(jobType) { %>
+                                                        <option value="<%= jobType %>"><%= jobType %></option>
+                                                        <% }); %>
+                                                    </select>
+                                                </div>
+                                                <!-- Job Type dropdown ends here -->
+                                            </div>
+    
+                                            <div class="row mb-3">
+                                                <!-- Work Mode dropdown begins here -->
+                                                <div class="col-md-6 col-lg-6">
+                                                    <select class="form-control filter-dropdown" id="workplaceType" data-column="4">
+                                                        <option value="" selected>Filter by Work Mode</option>
+                                                        <% const workModes = new Set(); %>
+                                                        <% allApplicants.forEach(function(allApplicant) { %>
+                                                        <% workModes.add(allApplicant.workplaceType); %>
+                                                        <% }); %>
+                                                        <% workModes.forEach(function(workMode) { %>
+                                                        <option value="<%= workMode %>"><%= workMode %></option>
+                                                        <% }); %>
+                                                    </select>
+                                                </div>
+                                                <!-- Work Mode dropdown ends here -->
+    
+                                                <!-- Location dropdown begins here -->
+                                                <div class="col-md-6 col-lg-6">
+                                                    <select class="form-control filter-dropdown" id="jobLocation" data-column="5">
+                                                        <option value="" selected>Filter by Location</option>
+                                                        <% const locations = new Set(); %>
+                                                        <% allApplicants.forEach(function(allApplicant) { %>
+                                                        <% locations.add(allApplicant.jobLocation); %>
+                                                        <% }); %>
+                                                        <% locations.forEach(function(location) { %>
+                                                        <option value="<%= location %>"><%= location %></option>
+                                                        <% }); %>
+                                                    </select>
+                                                </div>
+                                                <!-- Location dropdown ends here -->
+                                            </div>
+    
+                                            <div class="row mb-3">
+                                                <!-- Status dropdown begins here -->
+                                                <div class="col-md-6 col-lg-6">
+                                                    <select class="form-control filter-dropdown" id="status" data-column="6">
+                                                        <option value="" selected>Filter by Status</option>
+                                                        <% const statuses = new Set(); %>
+                                                        <% allApplicants.forEach(function(allApplicant) { %>
+                                                        <% statuses.add(allApplicant.status); %>
+                                                        <% }); %>
+                                                        <% statuses.forEach(function(status) { %>
+                                                        <option value="<%= status %>"><%= status %></option>
+                                                        <% }); %>
+                                                    </select>
+                                                </div>
+                                                <!-- Status dropdown ends here -->
+                                            </div>
+    
+                                            <!-- buttons starts here -->
+                                            <div class="d-flex" style="gap: 10px;">
+    
+                                                <div class="">
+                                                  <button class="btn btn-outline-success" onclick="applyFilters()">Apply Filters</button>
+                                                </div>
+    
+    
+                                                <div class="">
+                                                  <button class="btn btn-outline-danger" onclick="resetFilters()">Reset Filters</button>
+                                                </div>
+                                                
+                                                <div>
+                                                  <button class="btn btn-outline-secondary" onclick="closeDropdown()">Close</button>
+                                                </div>
+
+                                              </div>
+                                            <!-- buttons ends here -->
+                                        </div>
+                                        <!-- Dropdown ends here -->
+
+                                    </div>
+
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Sl. No</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Role</th>
+                                            <th scope="col">Job Type</th>
+                                            <th scope="col">Preferred WorkPlace</th>
+                                            <th scope="col">Location</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Download</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="internshipTableBody">
+                                        <% allApplicants.forEach(function(allApplicant,index){%>
+                                            <tr  class="applicants" data-toggle="modal" data-target="#applicantsDetailsModal" data-enquiry-name="<%= allApplicant.userId.name %>" data-enquiry-email = "<%= allApplicant.email %>" data-enquiry-jobtitle="<%= allApplicant.jobTitle %>" data-enquiry-jobpostingtype="<%=allApplicant.jobPostingType %>" data-enquiry-workplacetype="<%= allApplicant.workplaceType %>" data-enquiry-joblocationtype="<%= allApplicant.jobLocation%>" data-enquiry-comEmail="<%= allApplicant.communicationType %>" data-enquiry-phone="<%= allApplicant.phone %>" data-enquiry-description="<%= allApplicant.description %>" data-enquiry-id = "<%= allApplicant._id %>" data-enquiry-status ="<%= allApplicant.status %>">
+                                                <td><%= index + 1 %></td>
+                                                <td><%= allApplicant.userId.name%></td>
+                                                <td><%= allApplicant.jobTitle%></td>
+                                                <td><%= allApplicant.jobPostingType%></td>
+                                                <td><%= allApplicant.workplaceType%></td>
+                                                <td><%= allApplicant.jobLocation%></td>
+                                                <td> <% if (allApplicant.status ==="OPEN") { %>
+                                                    <div class="badge bg-gradient-success text-light">
+                                                        Open
+                                                    </div>
+                                                <% } else { %>
+                                                    <div class="badge bg-gradient-danger text-light">
+                                                        Closed
+                                                    </div>
+                                                <% } %></td>
+                                                <td><button type="button" class="btn btn-outline-primary" onclick="downloadPdfFromUrl('<%= allApplicant.attachment %>',event)">Download</button></td>
+                                                <td><button type="button" class="btn btn-outline-danger" onclick="showDeleteConfirmation('<%=allApplicant._id%>',event)">Delete</button></td>
+                                            </tr>
+                                        <% })%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <%} %>
+                    <!-- End of Datatables -->
+                </div>
+
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+
+
+            <!-- applicants details modal starts here -->
+            <div class="modal fade" id="applicantsDetailsModal" tabindex="-1" role="dialog" aria-labelledby="applicantsDetailsModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="applicantsDetailsModalLabel">Applicant Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Name : </strong> <span id="modalApplicantsName"></span></p>
+                            <p><strong>Email : </strong> <span id="modalApplicantsEmail"></span></p>
+                            <p><strong>Job Title : </strong> <span id="modalApplicantsJobTitle"></span></p>
+                            <p><strong>Job Posting Type : </strong> <span id="modalApplicantsJobPostingType"></span></p>
+                            <p><strong>Workplace Type : </strong> <span id="modalApplicantsWorkplaceType"></span></p>
+                            <p><strong>Job Location Type : </strong> <span id="modalApplicantsJobLocationType"></span></p>
+                            <p><strong>Communication : </strong> <span id="modalApplicantsComEmail"></span></p>
+                            <p><strong>Phone : </strong> <span id="modalApplicantsPhone"></span></p>
+                            <p><strong>Description : </strong> <span id="modalApplicantsDescription"></span></p>
+                            <p><strong>Status:</strong> 
+                                <select class="statusDropdown" id="statusDropdown">
+                                    <% for(let i=0;i<applicantStatus.length;i++) {%>
+                                        <option value=<%=applicantStatus[i]%>><%= applicantStatus[i]==='OPEN'?'OPEN':'CLOSED' %></option>
+                                    <% } %>
+                                </select>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success" onclick="updateApplicantStatus()">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- applicants details modal ends here -->
+
+            <!-- Delete Confirmation Modal -->
+            <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete this post?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-danger" onclick="deleteApplicantDetails()">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="successModal">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title text-dark font-weight-bolder" id="successHeader">
+								Success
+							</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p id="successMessage">Message</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" onClick="handleCloseSuccessModal()">
+								Close
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+            <!-- End of Delete Confirmation Modal -->
+
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.min.js"></script>
+
+            <script>
+            // search functionality
+
+            let searchTerm = ''; // Global variable to store the search term
+            let editId='';
+
+                // Function to handle search input
+                function handleSearchInput() {
+                const searchInput = document.querySelector('.search');
+                searchTerm = searchInput.value.trim().toLowerCase(); // Update the search term
+                applySearch(); // Apply the search
+                }
+
+                function applySearch() {
+                const rows = document.querySelectorAll('.table tbody tr'); // Get all table rows
+        
+                rows.forEach(function (row) {
+                    let shouldShow = false; // Flag to determine if the row should be displayed
+        
+                    // Loop through each cell in the row
+                    row.querySelectorAll('td').forEach(function (cell) {
+                        // Check if the cell contains the search term
+                        if (cell.textContent.trim().toLowerCase().includes(searchTerm)) {
+                            shouldShow = true; // If a match is found, set the flag to true
+                        }
+                    });
+        
+                    // Display or hide the row based on the flag value
+                    if (shouldShow) {
+                        row.style.display = ''; // Display the row
+                    } else {
+                        row.style.display = 'none'; // Hide the row
+                    }
+                });
+            }
+
+
+            // Apply search when the page loads
+                window.onload = function() {
+                applySearch();
+            };
+
+            // Add event listener for tab change to reapply search
+            document.addEventListener("visibilitychange", function() {
+                if (!document.hidden) {
+                    applySearch();
+                }
+            });
+
+            // Apply search when user types in the search input
+            document.querySelector('.search').addEventListener('input', handleSearchInput);
+            // search functionality ends here
+
+            function downloadPdf(uid){
+                console.log(`Check is userId getting : ${uid}`);
+                fetch(`download-applicants-resume?uid=${uid}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }).then(response => response.json())
+                .then(data => {
+                    // Handle the response data
+                    console.log(data);
+                    self.location.reload();
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error('Error:', error);
+                });
+            }
+
+
+            function downloadPdfFromUrl(url,event){
+                event.stopPropagation();
+                window.open(url, '_blank');
+            }
+
+
+            // Show Enquiry Details Modal on row click
+            $(document).on('click', '.applicants', function() {
+                let applicantsName = $(this).data('enquiry-name');
+                let applicantsEmail = $(this).data('enquiry-email');
+                let applicantsJobTitle = $(this).data('enquiry-jobtitle');
+                let applicantsJobPostingType = $(this).data('enquiry-jobpostingtype');
+                let applicantsWorkplaceType = $(this).data('enquiry-workplacetype');
+                let applicantsJobLocationType = $(this).data('enquiry-joblocationtype');
+                let applicantsComEmail = $(this).data('enquiry-comemail');
+                let applicantsPhone = $(this).data('enquiry-phone');
+                let applicantsDescription = $(this).data('enquiry-description');
+                let applicantsStatus = $(this).data('enquiry-status');
+
+                console.log(`Current status = ${applicantsStatus}`);
+                applicantsEmail ===''?applicantsEmail='N/A':applicantsEmail=applicantsEmail
+                applicantsPhone === ''?applicantsPhone='N/A':applicantsPhone=applicantsPhone
+                // Populate modal with details
+                $('#modalApplicantsName').text(applicantsName);
+                $('#modalApplicantsEmail').text(applicantsEmail);
+                $('#modalApplicantsJobTitle').text(applicantsJobTitle);
+                $('#modalApplicantsJobPostingType').text(applicantsJobPostingType);
+                $('#modalApplicantsWorkplaceType').text(applicantsWorkplaceType);
+                $('#modalApplicantsJobLocationType').text(applicantsJobLocationType);
+                $('#modalApplicantsComEmail').text(applicantsComEmail);
+                $('#modalApplicantsPhone').text(applicantsPhone);
+                $('#modalApplicantsDescription').text(applicantsDescription);
+                $('#statusDropdown').val(applicantsStatus);
+                editId = $(this).data('enquiry-id');
+
+                // Show the modal
+                $('#applicantsDetailsModal').modal('show');
+
+            });
+
+            // update status from open or close
+            function updateApplicantStatus() {
+                var newStatus = $('#statusDropdown').val();
+                console.log('New status:', newStatus);
+
+                $('#modalEnquiryStatus').text(newStatus);
+
+                console.log(`Check ID : ${editId}`);
+
+                fetch(`update-applicant-status/${editId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        newStatus: newStatus,
+                    })
+                }).then(response => response.json())
+                .then(data => {
+                    // Handle the response data
+                    console.log(data);
+                    self.location.reload();
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error('Error:', error);
+                });
+            }
+
+
+            function showDeleteConfirmation(deleteId) {
+                // Prevent event propagation
+                event.stopPropagation();
+
+                $('#deleteConfirmationModal').modal('show');
+                getDeleteId = deleteId;
+            }
+
+            function deleteApplicantDetails() {
+                const deleteUser = getDeleteId;
+                console.log(`Delete User : ${deleteUser}`);
+
+                fetch(`delete-applicant-by-admin?uid=${deleteUser}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                }).then(response => response.json())
+                .then(data => {
+
+                    // Handle the response data
+                    console.log(data);
+                    handleShowSuccessModal("Delete Application", "Successfully Deleted Application")
+				    $('#deleteConfirmationModal').modal('hide');
+                    getDeleteId = null;
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error('Error:', error);
+                });
+            }
+
+              // Stop event propagation
+              function stopPropagation(event) {
+                event.stopPropagation();
+            }
+
+
+                function applyFilters() {
+                    console.log('Applying filters');
+                    // Get the selected values from each dropdown
+                    const jobTitle = document.getElementById('jobTitle').value;
+                    const jobPostingType = document.getElementById('jobPostingType').value;
+                    const workplaceType = document.getElementById('workplaceType').value;
+                    const jobLocation = document.getElementById('jobLocation').value;
+                    const status = document.getElementById('status').value;
+
+                    console.log(`JobTitle : ${jobTitle}`);
+
+                    // Apply filters to your data
+                    filterData(jobTitle,jobPostingType, workplaceType, jobLocation, status);
+                }
+
+                function filterData(jobTitle,jobPostingType, workplaceType, jobLocation, status) {
+                    // Get all table rows
+                    const rows = document.querySelectorAll('.table tbody tr');
+
+                    // Loop through each row
+                    rows.forEach(function(row) {
+                        // Get the values in each row
+                        const rowData = {
+                            jobTitle: row.cells[2].textContent.trim(),
+                            jobPostingType: row.cells[3].textContent.trim(),
+                            workplaceType: row.cells[4].textContent.trim(),
+                            jobLocation: row.cells[5].textContent.trim(),
+                            status: row.cells[6].textContent.trim(),
+                        };
+
+                        // Check if the row matches the selected filters
+                        const matchesFilter =
+                            (jobTitle === '' || rowData.jobTitle === jobTitle) &&
+                            (jobPostingType === '' || rowData.jobPostingType === jobPostingType) &&
+                            (workplaceType === '' || rowData.workplaceType === workplaceType) &&
+                            (jobLocation === '' || rowData.jobLocation === jobLocation) &&
+                            (status === '' || rowData.status === (status==='OPEN'?'Open':'Closed'));
+
+                        // Show/hide the row based on whether it matches the filters
+                        if (matchesFilter) {
+                            row.style.display = ''; // Show the row
+                        } else {
+                            row.style.display = 'none'; // Hide the row
+                        }
+                    });
+
+                    closeDropdown();
+                }
+
+
+                // Function to reset filters
+                function resetFilters() {
+                    const filterDropdowns = document.querySelectorAll('.filter-dropdown');
+            
+                    filterDropdowns.forEach(function(dropdown) {
+                        dropdown.value = '';
+                    });
+            
+                    // Reset table rows
+                    applyFilters();
+                    closeDropdown();
+                }
+
+                // Close the dropdown when the close button is clicked
+            function closeDropdown() {
+                console.log("Close button clicked");
+                var dropdown = document.getElementById("myDropdown");
+                if (dropdown && dropdown.classList.contains("show")) {
+                    dropdown.classList.remove("show");
+                }
+            }
+
+            function handleCloseSuccessModal() {
+				self.location.reload()
+			}
+                
+
+            function handleShowSuccessModal(successHeaderText, successMessageText){
+				const successModal = document.getElementById("successModal")
+				
+				const successHeader = document.getElementById("successHeader")
+				successHeader.innerText = successHeaderText
+				const successMessage = document.getElementById("successMessage")
+				successMessage.innerText = successMessageText
+				
+				$("#successModal").modal("show")
+			}
+
+
+            </script>
+
+            <!-- Footer -->
+            <%- include('../layout/footer') %>
+<%- include('../layout/tail') %>

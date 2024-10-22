@@ -1,0 +1,122 @@
+<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #003049;">
+
+	<!-- Sidebar - Brand -->
+	<a class="sidebar-brand d-flex align-items-center justify-content-center" >
+		<div class="sidebar-brand-icon rotate-n-15">
+		</div>
+		<!-- <div class="sidebar-brand-text mx-3">Impactshaala</div> -->
+			<img src="https://impactshaala.com/assets/images/impactshaala-white_text-logo.png" alt="Impactshaala" style="width:110px;height:30px;">
+	</a>
+
+	<!-- Divider -->
+	<!-- <hr class="sidebar-divider my-0"> -->
+
+	<!-- Nav Item - Dashboard -->
+	<li class="nav-item <% if (currentPage === 'dashboard') { %>active<% } %>">
+		<a class="nav-link" href="/admin-panel/dashboard/dashboard">
+			<i class="fas fa-fw fa-tachometer-alt"></i>
+			<span>Dashboard</span></a>
+	</li>
+
+	<!-- Divider -->
+	<hr class="sidebar-divider">
+
+	<!-- Nav Item - Pages Collapse Menu -->
+	<li class="nav-item <% if (currentPage === 'users' || currentPage === 'user-details') { %>active<% } %>">
+		<a class="nav-link collapsed" href="/admin-panel/users/users-list" data-target="#collapseTwo" aria-expanded="true"
+			aria-controls="collapseTwo">
+			<i class="fa fa-user-circle"></i>
+			<span>Users</span>
+		</a>
+	</li>
+
+	<!-- Nav Item - Utilities Collapse Menu -->
+	<li class="nav-item <% if (currentPage === 'chats') { %>active<% } %>">
+		<a class="nav-link collapsed" href="/admin-panel/chats/view-reported-user" data-target="#collapseUtilities" aria-expanded="true"
+			aria-controls="collapseUtilities">
+			<i class="fa fa-money-check"></i>
+			<span>Reported User Chats</span>
+		</a>
+	</li>
+
+	<!-- Nav Item - Utilities Collapse Menu -->
+	<li class="nav-item <% if (currentPage === 'collabs') { %>active<% } %>">
+		<a class="nav-link collapsed" href="/admin-panel/collabs/collabs" data-target="#collapseUtilities" aria-expanded="true"
+			aria-controls="collapseUtilities">
+			<i class="fa fa-handshake"></i>
+			<span>Collaboration Tags</span>
+		</a>
+	</li>
+
+	<!-- Nav Item - Utilities Collapse Menu  internship/internship-or-job-posting--> 
+	<li class="nav-item <% if (currentPage === 'applicants') { %>active<% } %>">
+		<a class="nav-link collapsed" href="/admin-panel/internships/internships" data-target="#collapseUtilities" aria-expanded="true"
+			aria-controls="collapseUtilities">
+			<i class="fa fa-address-book"></i>
+			<span>Job Applicants</span>
+		</a>
+	</li>
+
+	<!-- Nav Item - Utilities Collapse Menu  --> 
+	<li class="nav-item <% if (currentPage === 'internship') { %>active<% } %>">
+		<a class="nav-link collapsed" href="/admin-panel/internships/list-all-jobs-or-internship" data-target="#collapseUtilities" aria-expanded="true"
+			aria-controls="collapseUtilities">
+			<i class="fa fa-briefcase"></i>
+			<span>Job Posts</span>
+		</a>
+	</li>
+
+	<!-- Nav Item - Utilities Collapse Menu --> 
+	<li class="nav-item <% if (currentPage === 'enquiry') { %>active<% } %>">
+		<a class="nav-link collapsed" href="/admin-panel/enquiry/list-all-enquires" data-target="#collapseUtilities" aria-expanded="true"
+			aria-controls="collapseUtilities">
+			<i class="fas fa-comment"></i>
+			<span>Enquiries</span>
+		</a>
+	</li>
+
+	<li class="nav-item <% if (currentPage === 'media-posts') { %>active<% } %>">
+		<a class="nav-link" href="/admin-panel/media-posts/list-all-media-posts">
+			<i class="fas fa-fw fa-tachometer-alt"></i>
+			<span>Media Posts</span>
+		</a>
+	</li>
+
+	<li class="nav-item <% if (currentPage === 'reported-media-posts') { %>active<% } %>">
+		<a class="nav-link" href="/admin-panel/reported-media-posts/list-all-reported-media-posts">
+			<i class="fas fa-fw fa-tachometer-alt"></i>
+			<span>Reported Media Posts</span>
+		</a>
+	</li>
+
+	<li class="nav-item <% if (currentPage === 'polls') { %>active<% } %>">
+		<a class="nav-link" href="/admin-panel/polls/list-all-polls">
+			<i class="fas fa-fw fa-tachometer-alt"></i>
+			<span>Polls</span>
+		</a>
+	</li>
+
+	<li class="nav-item <% if (currentPage === 'reported-polls') { %>active<% } %>">
+		<a class="nav-link" href="/admin-panel/reported-polls/list-all-reported-polls">
+			<i class="fas fa-fw fa-tachometer-alt"></i>
+			<span>Reported Polls</span>
+		</a>
+	</li>
+
+	<li class="nav-item <% if (currentPage === 'accomplishments') { %>active<% } %>">
+		<a class="nav-link" href="/admin-panel/accomplishment/list-all-accomplishments">
+			<i class="fas fa-fw fa-tachometer-alt"></i>
+			<span>Accomplishment</span>
+		</a>
+	</li>
+
+
+	<!-- Divider -->
+	<hr class="sidebar-divider d-none d-md-block">
+
+	<!-- Sidebar Toggler (Sidebar) -->
+	<div class="text-center d-none d-md-inline">
+		<button class="rounded-circle border-0" id="sidebarToggle"></button>
+	</div>
+
+</ul>

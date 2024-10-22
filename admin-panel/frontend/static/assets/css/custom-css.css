@@ -1,0 +1,130 @@
+    .verification-container {
+        display: inline-block;
+        padding: 1px 8px;
+        border-radius: 12px;
+        color: white;
+        font-size: 12px; 
+    }
+
+    .verified {
+        background-color: green;
+    }
+
+    .not-verified {
+        background-color: red;
+    }
+
+    .statusDropdown {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 5px 10px;
+      font-size: 16px;
+      background-color: #fff;
+      outline: none;
+      transition: border-color 0.3s;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      -ms-border-radius: 10px;
+      -o-border-radius: 10px;
+}
+    
+    .statusDropdown:hover {
+      border-color: #aaa;
+    }
+    
+    .statusDropdown:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    
+
+
+    
+    /* .dropbtn {
+        color: #2980B9;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      
+      .dropbtn:hover, .dropbtn:focus {
+        background-color: #2980B9;
+        color: white;
+      }
+      
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+      
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0px;
+        background-color: #fff;
+        min-height: 200px;
+        min-width: 500px;
+        padding: 20px;
+        overflow: auto;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+      }
+      
+      .dropdown-content a {
+        color: black;
+        text-decoration: none;
+        display: block;
+      }
+      
+      .dropdown a:hover {background-color: #ddd;} */
+      
+      .show {display: block;}
+
+      .search{
+        margin-right:15px;
+      }
+
+
+
+      .commondropdown {
+        position: relative;
+        display: inline-block;
+      }
+      
+      .commondropdown-content {
+        display: none;
+        position: absolute;
+        right: 0px;
+        background-color: #f1f1f1;
+        min-height: 200px;
+        min-width: 300px;
+        padding: 20px;
+        overflow: auto;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        /* padding: 10px; */
+        /* position: absolute; */
+        /* margin: 40px;  */
+      }
+
+
+      .commondropdown-content a {
+        color: black;
+        /* padding: 12px 16px; */
+        text-decoration: none;
+        display: block;
+      }
+      
+      .commondropdown a:hover {background-color: #ddd;}
+
+
+
+      .back-button {
+        background-color: transparent;
+        border: none;
+        color: black;
+        /* font-size: 23px; */
+        padding: 5px;
+        cursor: pointer;
+    }
+
+  

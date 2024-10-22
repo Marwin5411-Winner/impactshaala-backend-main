@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Admin Panel - Impactshaala</title>
+
+  <!-- Custom fonts for this template -->
+  <link rel="stylesheet" href="/admin-panel/assets/vendor/fontawesome-free/css/all.min.css" type="text/css" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="/admin-panel/assets/css/sb-admin-2.min.css" rel="stylesheet" />
+  <style>
+    .text-light {
+      color: white;
+    }
+
+    body {
+      font-family: "Poppins",
+        sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff
+    }
+
+    .custom-container {
+      display: flex;
+      flex-direction: row;
+      height: 100vh;
+    }
+
+    .image-container {
+      flex: 1;
+      background-image: url("https://mavt.ethz.ch/research/student-projects/_jcr_content/par/fullwidthimage/image.imageformat.1286.871497668.jpg");
+      background-size: cover;
+    }
+
+    .login-container {
+      flex: .7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-form {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      background: transparent;
+      color: #000;
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 10px;
+      background-color: #003049;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .admin-login-text {
+      font-size: 60px;
+      /* Modify this value to adjust the font size */
+    }
+
+    .welcome-text {
+      font-size: 32px;
+      /* Modify this value to adjust the font size */
+    }
+
+    @media (max-width: 767px) {
+      .image-container {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="custom-container">
+    <div class="image-container">
+    </div>
+    <div class="login-container">
+      <img src="https://impactshaala.com/assets/logo/logo.png" width="151" height="52"/>
+      <br>
+      <h2 style="color: #003049;">Impactshaala Login</h2>
+      <div class="login-form">
+        <div class="form-group">
+          <input type="email" name="email" id="email" placeholder="Email" />
+          <div class="invalid-feedback" id="emptyFieldMessage" style="display: none;">Email can't be empty</div>
+        </div>
+        <div class="form-group">
+          <input type="password" name="password" id="password" placeholder="Password" />
+          <div class="invalid-feedback" id="emptyFieldMessagePassword" style="display: none;">Password can't be empty</div>
+        </div>
+        <button class="login-button" type="button" onclick="signinadmin()">Login</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="/admin-panel/assets/vendor/jquery/jquery.min.js"></script>
+  <script src="/admin-panel/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="/admin-panel/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="/admin-panel/assets/js/sb-admin-2.min.js"></script>
+</body>
+
+</html>
+<script>
+  function signinadmin() {
+    var emailval = document.getElementById('email').value;
+    var passwordval = document.getElementById('password').value;
+
+    if(!emailval.trim()) {
+      document.getElementById('emptyFieldMessage').style.display = 'block';
+      return;
+    }
+
+    if(!passwordval.trim()) {
+      document.getElementById('emptyFieldMessagePassword').style.display = 'block';
+      return;
+    }
+
+    console.log(emailval);
+    console.log(passwordval);
+
+    fetch('login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        emailId: emailval.trim(),
+        password: passwordval.trim(),
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+
+        // Handle the response data
+        console.log(data);
+        if (data.status == true) {
+          self.location.reload(true);
+        } else {
+          alert(data.msg)
+        }
+      })
+      .catch(error => {
+        // Handle any errors
+        console.error('Error:', error);
+      });
+
+  }
+</script>

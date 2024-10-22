@@ -1,0 +1,163 @@
+<%- include('../layout/head') %>
+<%- include('../layout/sidebar') %>
+<div id="content-wrapper" class="d-flex flex-column">
+	<div id="content">
+		<%- include('../layout/navbar') %>
+		<div class="container-fluid">
+			<div class="row mb-3">
+				<div class="col-sm-6">
+					<div class="row "> 
+					 	<a href="/admin-panel/polls/list-all-polls">
+							<button type="button"  class="back-button">
+							 	<i class="fas fa-chevron-left"></i>
+							</button>
+					 	</a>
+					 	<h4 class="card-title mb-0 d-flex flex-column justify-content-center ml-2">
+							<span>
+								Poll Details
+							</span>
+					 	</h4>
+					</div>
+			 	</div>
+				 <div class="col-sm-6 d-flex justify-content-end">
+						<button class="btn btn-sm btn-outline-danger mr-2" onclick="showDeletePopup('<%=poll._id%>')">
+							 <i class="fas fa-trash-alt"></i> Delete
+					 	</button>
+			 </div>
+			</div>
+			<div class="card rounded">
+				<div class="card-body">
+					<div class="row gy-5">
+						<h2 class="col-12">Poll</h2>
+						<div class="col-12 row">
+							<h5 class="col-3">Question</h5>
+							<p class="col-9"><%= poll.question %></p>
+						</div>
+						<% if(poll.caption) { %>
+							<div class="col-12 row">
+								<h5 class="col-3">Caption</h5>
+								<div class="col-9"><%= poll.caption %></div>
+							</div>
+						<% } %>
+						<% if(poll.options && poll.options.length > 0) { %>
+							<div class="col-12 row">
+								<h5 class="col-3">Options: </h5>
+								<div class="row col-9">
+									<div class="col-3">Option</div>
+									<div class="col-9">Votes</div>
+									<div class="col-12">
+										<hr>
+									</div>
+									<% poll.options.forEach(function(option, index) { %>
+										<div class="col-3"><%= option.text %></div>
+										<div class="col-9"><%= option.votes.length %></div>
+									<% }) %>
+								</div>
+							</div>
+						<%} %>
+					</div>
+					<div class="row">
+							<h2 class="col-12 mb-3">Owner</h2>
+							<div class="col-sm-6">
+									<div class="mb-2"><strong>Name : </strong> <%=userData.name%></div>
+									<div class="mb-2"><strong>Email : </strong> <%=userData.authId.email%></div>
+									<div class="mb-2"><strong>Contact No : </strong><%=userData.contactNo !==''?userData.contactNo:"N/A" %></div>
+									<div class="mb-2"><strong>Verification Status : </strong>
+											<% if (userData.authId.isVerified==='VERIFIED') { %>
+													<div class="badge bg-gradient-success text-light">
+															Verified
+													</div>
+											<% } else { %>
+													<div class="badge bg-gradient-danger text-light">
+															Not Verified
+													</div>
+											<% } %>
+									</div>
+									<div class="mb-2"><strong>Active Status : </strong>
+											<% if (userData.authId.isActive==='ACTIVE') { %>
+													<div class="badge bg-gradient-success text-light">
+															Active
+													</div>
+											<% } else { %>
+													<div class="badge bg-gradient-danger text-light">
+															Blocked
+													</div>
+											<% } %>
+									</div>
+									<div class="mb-2"><strong>Tagline : </strong><%=userData.tagline !==''?userData.tagline:"N/A" %></div>
+									<div class="mb-2"><strong>Account Type : </strong> <%=userData.accountType !==''?userData.accountType:"N/A" %></div>
+									<div class="mb-2"><strong>User Type 1 : </strong> <%=userData.userType1 !==''?userData.userType1:"N/A"%></div>
+									<div class="mb-2"><strong>User Type 2 : </strong> <%=userData.userType2 !==''?userData.userType2:"N/A"%></div>
+									<div class="mb-2"><strong>User Type 3 : </strong><%=userData.userType3 !==''?userData.userType3:"N/A"%></div>
+									<div class="mb-2"><strong>User Type 4 : </strong><%=userData.userType4 !==''?userData.userType4:"N/A" %></div>
+		
+							</div>
+							<div class="col-sm-6">
+									<div class="mb-2"><strong>User Type 5 : </strong><%=userData.userType5 !==''?userData.userType5 :"N/A" %></div> 
+									<div class="mb-2"><strong>Company Email : </strong><%= userData.comEmail !==''?userData.comEmail:"N/A"%></div>
+									<div class="mb-2"><strong>City : </strong> <%=userData.city !==''?userData.city:"N/A" %></div>
+									<div class="mb-2"><strong>District : </strong> <%=userData.district !==''? userData.district:"N/A" %></div>
+									<div class="mb-2"><strong>State : </strong> <%=userData.state !==''?userData.state:"N/A"%></div>
+									<div class="mb-2"><strong>Country : </strong> <%=userData.country !==''?userData.country:"N/A" %> </div>
+									<div class="mb-2"><strong>Address : </strong> <%=userData.address !==''?userData.address:"N/A" %></div>
+									<div class="mb-2"><strong>Description : </strong><%=userData.description!==''?userData.description:"N/A" %></div>
+									<div class="mb-2"><strong>Website : </strong><%=userData.website!==''?userData.website:"N/A"%></div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="deleteConfirmationModal" role="dialog">
+	<div class="modal-dialog" role="document">
+			<div class="modal-content">
+					<div class="modal-header">
+							<h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+							<button type="button" class="close" aria-label="Close" onclick="hideDeletePopup()">
+									<span aria-hidden="true">&times;</span>
+							</button>
+					</div>
+					<div class="modal-body">
+							Are you sure you want to delete this poll?
+					</div>
+					<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="hideDeletePopup()">Cancel</button>
+							<button type="button" class="btn btn-danger" onclick="deletePost()">Delete</button>
+					</div>
+			</div>
+	</div>
+</div>
+
+<script>
+	let getDeleted = null
+
+	function showDeletePopup(id) {
+		const modal = document.getElementById('deleteConfirmationModal')	
+		getDeleted = id;
+		modal.classList.add("show")
+	}
+
+	function hideDeletePopup() {
+		getDeleted = null;
+		const modal = document.getElementById('deleteConfirmationModal')	
+		modal.classList.remove("show")
+	}
+
+	async function deletePost() {
+		try {
+			const resp = await fetch(`../delete/${getDeleted}`, {method: "DELETE"})
+			const data = await resp.json()
+			if(data.success) {
+				window.location='/admin-panel/polls/list-all-polls'
+			}
+			hideDeletePopup()
+			
+		} catch(err) {
+			window.alert(err.message)
+			console.error(err)
+			getDeleted = null
+			hideDeletePopup()
+		}
+	}
+</script>

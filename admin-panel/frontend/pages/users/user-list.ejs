@@ -1,0 +1,518 @@
+<%- include('../layout/head') %>
+  <%- include('../layout/sidebar') %>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+        <!-- Topbar -->
+        <%- include('../layout/navbar') %>
+          <!-- End of Topbar -->
+
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+            <!-- Page Heading -->
+            <div class="d-flex justify-content-between w-100">
+              <h1 class="h3 mb-2 text-gray-800">Manage Users</h1>
+            </div>
+
+            <div class="d-flex justify-content-between w-100 mt-2">
+              <!-- <label> <input type="search" class="search form-control form-control-md  my-4" placeholder="Search" onchange="search()">
+                  </label> -->
+
+
+              <!-- dropdown begin here -->
+
+              <!-- dropdown ends here -->
+
+            </div>
+
+            <% if (!userLists || userLists.length===0) { %>
+              <div class="alert alert-info" role="alert">
+                No Users available.
+              </div>
+              <% } else { %>
+
+                <!-- DataTables -->
+                <div class="card shadow mb-4">
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-hover text-center">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+
+                          <div class="col justify-content-lg-start">
+                            <h4 class="mb-3">User Lists</h4>
+                            <div class="row justify-content-between">
+                              <label> <input type="search" class="search form-control form-control-md  my-4"
+                                  placeholder="Search"></label>
+
+                              <!-- dropdown begin here -->
+                              <div class="dropdown">
+
+                                <a class="btn btn-primary dropdown-toggle" href="#" role="button" onclick="showFilters()">
+                                  Filter
+                                </a>
+
+                                <div class="dropdown-menu fa-w-19 p-4 position-absolute" onclick="stopPropagation(event)" id="dropdown" style="width: 500px; top: 50px; left: -400px;">
+
+                                  <div class="row mb-3">
+                                    <!-- accountType dropdown begins here -->
+                                    <div class="col-md-6 col-lg-6">
+                                      <select class="form-control filter-dropdown" id="filterAccountType"
+                                        data-column="5">
+                                        <option value="" selected>Filter by Account Type</option>
+                                        <% const accountTypes=new Set(); %>
+                                        <% userLists.forEach(function(userList) { %>
+                                        <% accountTypes.add(userList.accountType); %>
+                                        <% }); %>
+                                        <% accountTypes.forEach(function(accountType) { %>
+                                        <option value="<%= accountType %>">
+                                          <%= accountType %>
+                                        </option>
+                                        <% }); %>
+                                      </select>
+                                    </div>
+                                    <!-- accountType dropdown end here -->
+
+                                    <!-- first dropdown begins here -->
+                                    <div class="col-md-6 col-lg-6">
+                                      <select class="form-control filter-dropdown" id="filterUserType1" data-column="6">
+                                        <option value="">Filter by User Type 1</option>
+                                        <% const userType1=new Set(); %>
+                                          <% userLists.forEach(function(userList) { %>
+                                            <% userType1.add(userList.userType1); %>
+                                              <% }); %>
+                                                <% userType1.forEach(function(userType1) { %>
+                                                  <option value="<%= userType1 %>">
+                                                    <%= userType1 %>
+                                                  </option>
+                                                  <% }); %>
+                                      </select>
+                                    </div>
+                                    <!-- first dropdown ends here -->
+                                  </div>
+
+
+                                  <div class="row mb-3">
+
+                                    <div class="col-md-6 col-lg-6">
+                                      <select class="form-control filter-dropdown" id="filterUserType2" data-column="7">
+                                        <option value="">Filter by User Type 2</option>
+                                        <% const userType2=new Set(); %>
+                                          <% userLists.forEach(function(userList) { %>
+                                            <% userType2.add(userList.userType2); %>
+                                              <% }); %>
+                                                <% userType2.forEach(function(userType2) { %>
+                                                  <option value="<%= userType2 %>">
+                                                    <%= userType2 %>
+                                                  </option>
+                                                  <% }); %>
+                                      </select>
+                                    </div>
+                                    <!-- second dropdown ends here -->
+
+                                    <!-- third dropdown begins here -->
+                                    <div class="col-md-6 col-lg-6">
+                                      <select class="form-control filter-dropdown" id="filterUserType3" data-column="8">
+                                        <option value="">Filter by User Type 3</option>
+                                        <% const userType3Set=new Set(); %>
+                                          <% userLists.forEach(function(userList) { %>
+                                            <% if (userList.userType3) { %>
+                                              <% userType3Set.add(userList.userType3); %>
+                                                <% } %>
+                                                  <% }); %>
+                                                    <% userType3Set.forEach(function(userType3) { %>
+                                                      <option value="<%= userType3 %>">
+                                                        <%= userType3 %>
+                                                      </option>
+                                                      <% }); %>
+                                      </select>
+                                    </div>
+                                    <!-- third dropdown ends here -->
+                                  </div>
+                                  <div class="row mb-3">
+                                    <div class="col-md-6 col-lg-6">
+                                      <select class="form-control filter-dropdown" id="filterUserType4" data-column="9">
+                                        <option value="">Filter by User Type 4</option>
+                                        <% const userType4Set=new Set(); %>
+                                          <% userLists.forEach(function(userList) { %>
+                                            <% if (userList.userType4) { %>
+                                              <% userType4Set.add(userList.userType4); %>
+                                                <% } %>
+                                                  <% }); %>
+                                                    <% userType4Set.forEach(function(userType4) { %>
+                                                      <option value="<%= userType4 %>">
+                                                        <%= userType4 %>
+                                                      </option>
+                                                      <% }); %>
+                                      </select>
+                                    </div>
+                                    <!-- fourth dropdown starts here -->
+
+                                    <!-- fifth dropdown starts here -->
+                                    <div class="col-md-6 col-lg-6">
+                                      <select class="form-control filter-dropdown" id="filterUserType5"
+                                        data-column="10">
+                                        <option value="">Filter by User Type 5</option>
+                                        <% const userType5Set=new Set(); %>
+                                          <% userLists.forEach(function(userList) { %>
+                                            <% if (userList.userType5) { %>
+                                              <% userType5Set.add(userList.userType5); %>
+                                                <% } %>
+                                                  <% }); %>
+                                                    <% userType5Set.forEach(function(userType5) { %>
+                                                      <option value="<%= userType5 %>">
+                                                        <%= userType5 %>
+                                                      </option>
+                                                      <% }); %>
+                                      </select>
+                                    </div>
+
+                                  </div>
+                                  <!-- fifth dropdown ends here -->
+
+                                  <div class="d-flex" style="gap: 10px;">
+
+                                    <div class="">
+                                      <button class="btn btn-outline-success" onclick="applyFilters()">Apply
+                                        Filters</button>
+                                    </div>
+
+
+                                    <div class="">
+                                      <button class="btn btn-outline-danger" onclick="resetFilters()">Reset
+                                        Filters</button>
+                                    </div>
+
+                                    <div>
+                                      <button class="btn btn-outline-secondary" onclick="hideFilters()">Close</button>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                              <!-- dropdown ends here -->
+
+                            </div>
+                          </div>
+
+                        </div>
+                        <thead style="font-size:15px">
+                          <tr>
+                            <th scope="col">Sl. No</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">accountType</th>
+                            <th scope="col">userType1</th>
+                            <th scope="col">userType2</th>
+                            <th scope="col">userType3</th>
+                            <th scope="col">userType4</th>
+                            <th scope="col">userType5</th>
+                            <!-- <th scope="col">City</th>
+                                            <th scope="col">Country</th> -->
+                            <th scope="col">Active Status</th>
+                            <th scope="col">Verification Status</th>
+                          </tr>
+                        </thead>
+                        <% userLists.forEach(function(userList,index){%>
+                          <tbody style="font-size:15px">
+                            <tr
+                              onclick="window.location='/admin-panel/users/user-details?uid=<%=userList.authId._id %>'">
+                              <td>
+                                <%= index + 1 %>
+                              </td>
+                              </td>
+                              <td>
+                                <%=userList.name%>
+                              </td>
+                              <td>
+                                <%=userList.authId.email%>
+                              </td>
+                              <td>
+                                <%=userList.accountType%>
+                              </td>
+                              <td>
+                                <%=userList.userType1%>
+                              </td>
+                              <td>
+                                <%=userList.userType2%>
+                              </td>
+                              <td>
+                                <%=userList.userType3%>
+                              </td>
+                              <td>
+                                <%=userList.userType4%>
+                              </td>
+                              <td>
+                                <%=userList.userType5%>
+                              </td>
+                              <td>
+                                <% if (userList.authId.isActive==="ACTIVE" ) { %>
+                                  <div class="badge bg-gradient-success text-light">
+                                    Active
+                                  </div>
+                                  <% } else { %>
+                                    <div class="badge bg-gradient-danger text-light">
+                                      Blocked
+                                    </div>
+                                    <% } %>
+                              </td>
+                              <td>
+                                <% if (userList.authId.isVerified==='VERIFIED' ) { %>
+                                  <div class="badge bg-gradient-success text-light">
+                                    Verified
+                                  </div>
+                                  <% } else { %>
+                                    <div class="badge bg-gradient-danger text-light">
+                                      Not Verified
+                                    </div>
+                                    <% } %>
+                              </td>
+                            </tr>
+                          </tbody>
+                          <% })%>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <%} %>
+                  <!-- End of Datatables -->
+          </div>
+
+          <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+
+      <script>
+
+        // implementing search functionality
+
+        let searchTerm = ''; // Global variable to store the search term
+
+        // Function to handle search input
+        function handleSearchInput() {
+          const searchInput = document.querySelector('.search');
+          searchTerm = searchInput.value.trim().toLowerCase(); // Update the search term
+          applySearch(); // Apply the search
+        }
+
+        function applySearch() {
+          const rows = document.querySelectorAll('.table tbody tr'); // Get all table rows
+
+          rows.forEach(function (row) {
+            let shouldShow = false; // Flag to determine if the row should be displayed
+
+            // Loop through each cell in the row
+            row.querySelectorAll('td').forEach(function (cell) {
+              // Check if the cell contains the search term
+              if (cell.textContent.trim().toLowerCase().includes(searchTerm)) {
+                shouldShow = true; // If a match is found, set the flag to true
+              }
+            });
+
+            // Display or hide the row based on the flag value
+            if (shouldShow) {
+              row.style.display = ''; // Display the row
+            } else {
+              row.style.display = 'none'; // Hide the row
+            }
+          });
+        }
+
+
+        // Apply search when the page loads
+        window.onload = function () {
+          applySearch();
+        };
+
+        // Add event listener for tab change to reapply search
+        document.addEventListener("visibilitychange", function () {
+          if (!document.hidden) {
+            applySearch();
+          }
+        });
+
+        // Apply search when user types in the search input
+        document.querySelector('.search').addEventListener('input', handleSearchInput);
+
+        // JavaScript code for filtering
+        document.addEventListener("DOMContentLoaded", function () {
+          const filterDropdowns = document.querySelectorAll('.filter-dropdown');
+
+          filterDropdowns.forEach(function (dropdown) {
+            dropdown.addEventListener('change', function () {
+              // Perform filtering based on selected dropdown values
+              filterTableRows();
+              applySearch();
+            });
+          });
+        });
+
+        // Function to filter table rows
+        function filterTableRows() {
+          const filterDropdowns = document.querySelectorAll('.filter-dropdown');
+          const rows = document.querySelectorAll('.table tbody tr');
+
+          rows.forEach(function (row) {
+            let showRow = true;
+
+            filterDropdowns.forEach(function (dropdown) {
+              const selectedValue = dropdown.value;
+              const columnIndex = parseInt(dropdown.dataset.column); // Get column index from data-column attribute
+
+              if (selectedValue !== '') {
+                const columnValue = row.querySelector(`td:nth-child(${columnIndex})`).textContent;
+
+                if (!columnValue.includes(selectedValue)) {
+                  showRow = false;
+                }
+              }
+            });
+
+            if (showRow) {
+              row.style.display = '';
+            } else {
+              row.style.display = 'none';
+            }
+          });
+        }
+
+
+        // not using
+        function showFilterDropDown() {
+          document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        /* When the user clicks on the button, 
+          toggle between hiding and showing the dropdown content */
+        function myFunction() {
+          var dropdown = document.getElementById("myDropdown");
+          if (dropdown.classList.contains("show")) {
+            dropdown.classList.remove("show");
+          } else {
+            dropdown.classList.add("show");
+          }
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+          if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+              }
+            }
+          }
+        }
+
+
+        // Close the dropdown when the close button is clicked
+        function closeDropdown() {
+          console.log("Close button clicked");
+          var dropdown = document.getElementById("myDropdown");
+          if (dropdown && dropdown.classList.contains("show")) {
+            dropdown.classList.remove("show");
+          }
+        }
+
+
+        // Stop event propagation
+        function stopPropagation(event) {
+          event.stopPropagation();
+        }
+
+
+
+        function applyFilters() {
+          // Get the selected values from each dropdown
+          const filterAccountType = document.getElementById('filterAccountType').value;
+          const filterUserType1 = document.getElementById('filterUserType1').value;
+          const filterUserType2 = document.getElementById('filterUserType2').value;
+          const filterUserType3 = document.getElementById('filterUserType3').value;
+          const filterUserType4 = document.getElementById('filterUserType4').value;
+          const filterUserType5 = document.getElementById('filterUserType5').value;
+
+          // Apply filters to your data
+          filterData(filterAccountType, filterUserType1, filterUserType2, filterUserType3, filterUserType4, filterUserType5);
+        }
+
+        function filterData(accountType, userType1, userType2, userType3, userType4, userType5) {
+          // Get all table rows
+          const rows = document.querySelectorAll('table tbody tr');
+
+          // Loop through each row
+          rows.forEach(function (row) {
+            // Get the values in each row
+            const rowData = {
+              accountType: row.cells[3].textContent.trim(),
+              userType1: row.cells[4].textContent.trim(),
+              userType2: row.cells[5].textContent.trim(),
+              userType3: row.cells[6].textContent.trim(),
+              userType4: row.cells[7].textContent.trim(),
+              userType5: row.cells[8].textContent.trim()
+            };
+
+            // Check if the row matches the selected filters
+            const matchesFilter =
+              (accountType === '' || rowData.accountType === accountType) &&
+              (userType1 === '' || rowData.userType1 === userType1) &&
+              (userType2 === '' || rowData.userType2 === userType2) &&
+              (userType3 === '' || rowData.userType3 === userType3) &&
+              (userType4 === '' || rowData.userType4 === userType4) &&
+              (userType5 === '' || rowData.userType5 === userType5);
+
+            // Show/hide the row based on whether it matches the filters
+            if (matchesFilter) {
+              row.style.display = ''; // Show the row
+            } else {
+              row.style.display = 'none'; // Hide the row
+            }
+
+            hideFilters();
+          });
+        }
+
+        let getDeleted = null
+
+        function showFilters() {
+          const dropdownMenu = document.getElementById("dropdown")
+          dropdownMenu.classList.add("show")
+        }
+
+        function hideFilters() {
+          const dropdownMenu = document.getElementById("dropdown")
+          dropdownMenu.classList.remove("show")
+        }
+
+        function resetFilters() {
+          document.getElementById('filterAccountType').value = "";
+          document.getElementById('filterUserType1').value = "";
+          document.getElementById('filterUserType2').value = "";
+          document.getElementById('filterUserType3').value = "";
+          document.getElementById('filterUserType4').value = "";
+          document.getElementById('filterUserType5').value = "";
+          applyFilters()
+        }
+
+        function showDeletePopup(id) {
+          const modal = document.getElementById('deleteConfirmationModal')
+          getDeleted = id;
+          modal.classList.add("show")
+        }
+
+        function hideDeletePopup() {
+          getDeleted = null;
+          const modal = document.getElementById('deleteConfirmationModal')
+          modal.classList.remove("show")
+        }
+
+      </script>
+
+
+      <!-- Footer -->
+      <%- include('../layout/footer') %>
+        <%- include('../layout/tail') %>

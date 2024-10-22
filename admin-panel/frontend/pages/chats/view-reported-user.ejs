@@ -1,0 +1,126 @@
+<%- include('../layout/head') %>
+        <%- include('../layout/sidebar') %>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Topbar -->
+                <%- include('../layout/navbar') %>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                
+                    <h1 class="h3 mb-2 text-gray-800">Reported User Chats</h1>
+
+                    <!-- Go back button -->
+
+                    <!-- <div class="d-flex justify-content-end w-100 my-4">
+                        <button type="button" class="btn btn-outline-secondary" onclick="history.back()"> <i class="fas fa-chevron-left " style="font-weight: medium;"></i> Go Back </button>
+                    </div> -->
+
+
+                    <% if ((!senders || senders.length === 0) && (!receivers || receivers.length === 0) ) { %>
+                        <div class="alert alert-info" role="alert">
+                            No Users Reported.
+                        </div>
+                    <% } else { %> 
+
+        
+          
+                 <!-- End of Filter Dropdowns -->
+
+                    <!-- DataTables -->
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover text-center">
+                                    <h4 class="mb-3">User Lists</h4>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Sl. No</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Report User</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Account Status</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <% senders.forEach(function(sender,index){%>
+                                            <tbody>
+                                                <td>
+                                                    <%= index + 1 %>
+                                                </td>
+                                                </td>
+                                                <td><%=sender.name%></td>
+                                                <td><%=sender.authId.email %></td>
+                                                <td><%=receivers[index].name%></td>
+                                                <td><%=receivers[index].authId.email%></td>
+                                                <td> <% if (receivers[index].authId.isActive) { %>
+                                                    <div class="badge bg-gradient-success text-light">
+                                                        Active
+                                                    </div>
+                                                <% } else { %>
+                                                    <div class="badge bg-gradient-danger text-light">
+                                                        Blocked
+                                                    </div>
+                                                <% } %></td>
+                                                <td><button type="button" class="btn btn-outline-primary" onclick="downloadChat('<%=sender.authId._id%>', '<%=receivers[index].authId._id%>', '<%=sender.name%>','<%= receivers[index].name %>')">Download</button></td>
+                                            </tbody>
+                                    <% })%>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <%} %>
+                    <!-- End of Datatables -->
+                </div>
+
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+
+            <script>
+
+                function downloadChat(senderId, receiverId, senderName, receiverName) {
+                    fetch(`download-reported-chats?senderId=${senderId}&receiverId=${receiverId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            senderName: senderName,
+                            receiverName: receiverName
+                        })
+                    })
+                    .then(response => {
+                        return response.blob(); // Convert response to Blob
+                    })
+                    .then(blob => {
+                        // Create a temporary anchor element
+                        const url = window.URL.createObjectURL(new Blob([blob]));
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `${senderName}_${receiverName}.txt`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        window.URL.revokeObjectURL(url);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                }
+                
+
+   
+            </script>
+            
+
+            <!-- Footer -->
+            <%- include('../layout/footer') %>
+<%- include('../layout/tail') %>

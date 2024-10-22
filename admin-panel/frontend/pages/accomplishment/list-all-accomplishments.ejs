@@ -1,0 +1,127 @@
+<%- include('../layout/head') %>
+<%- include('../layout/sidebar') %>
+<div id="content-wrapper" class="d-flex flex-column">
+	<div id="content">
+		<%- include('../layout/navbar') %>
+		<div class="container-fluid">
+			<h1 class="h3 mb-2 text-gray-800">Accomplishments</h1>
+			<% if (!accomplishments || accomplishments.length === 0) { %>
+				<div class="alert alert-info" role="alert">
+						No Accomplishments available.
+				</div>
+			<% } else { %>
+				<div class="card shadow mb-4 mt-4">
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-hover text-center">
+								<h4 class="mb-3">Accomplishments List</h4>
+								<div class="row justify-content-between px-3">
+									<label>
+										<input type="search" class="search form-control form-control-md my-4" id="searchInput" placeholder="Search"/>
+									</label>
+
+									<!-- Filters Dropdown -->
+									<div class="dropdown position-relative">
+										<a class="btn btn-primary dropdown-toggle" href="#" role="button" onclick="showFilters()">
+											Filter
+										</a>
+										<div class="dropdown-menu fa-w-19 p-4 position-absolute" onclick="stopPropagation(event)" id="dropdown" style="width: 500px; top: 50px; left: -400px;">
+											<div class="row mb-3">
+												<!-- Role dropdown begins here -->
+												<div class="col-md-6 col-lg-6">
+												 	<select class="form-control filter-dropdown" id="OwnerName" data-column="1">
+														<option value="" selected>Filter by Name</option>
+														<% const names = new Set(); %>
+														<% console.log(names) %>
+														<% accomplishments.forEach(function(acc) { %>
+														<% names.add(acc.userId.name); %>
+														<% }); %>
+														<% names.forEach(function(name) { %>
+														<option value="<%= name %>"><%= name %></option>
+														<% }); %>
+												 	</select>
+												</div>
+										 	</div>
+											 <div class="d-flex" style="gap: 10px;">
+												<div class="">
+													<button class="btn btn-outline-success" onclick="applyFilters()">Apply Filters</button>
+												</div>
+												<div class="">
+													<button class="btn btn-outline-danger" onclick="resetFilters()">Reset Filters</button>
+												</div>
+												<div>
+													<button class="btn btn-outline-secondary" onclick="hideFilters()">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<thead>
+										<tr>
+											<th scope="col">Sl. No</th>
+											<th scope="col">Owner</th>
+											<th scope="col">Project Title</th>
+											<th scope="col">Collaborations</th>
+											<th scope="col">Objective</th>
+											<th scope="col">Deliverables</th>
+										</tr>
+									</thead>
+									<tbody id="pollsTableBody">
+										<% accomplishments.forEach((acc, index) => { %>
+											<tr  class="poll" onclick="window.location='/admin-panel/accomplishment/view-accomplishment/<%= acc._id %>'">
+												<td><%= index + 1%></td>
+												<td><%= acc.userId.name%></td>
+												<td><%= acc.projectTitle %></td>
+												<td><%= acc.collaborations %></td>
+												<td><%= acc.primaryObjective %></td>
+												<td><%= acc.keyDeliverables %></td>
+											</tr>
+										<% }) %>
+									</tbody>
+								</div>
+							</table>
+						</div>
+					</div>
+				</div>
+			<% } %>
+		</div>
+	</div>
+</div>
+
+<script>
+	function stopPropagation(event) {
+		event.stopPropagation()
+	}
+
+	window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+
+	let getDeleted = null
+
+	function showFilters() {
+		const dropdownMenu = document.getElementById("dropdown")
+		dropdownMenu.classList.add("show")
+	}
+
+	function hideFilters() {
+		const dropdownMenu  = document.getElementById("dropdown")
+		dropdownMenu.classList.remove("show")
+	}
+
+	function resetFilters() {
+
+	}
+
+	function applyFilters() {
+
+	}
+</script>

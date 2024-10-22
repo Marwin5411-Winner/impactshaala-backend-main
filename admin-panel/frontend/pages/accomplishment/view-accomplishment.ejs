@@ -1,0 +1,432 @@
+<%- include('../layout/head') %>
+<%- include('../layout/sidebar') %>
+<div id="content-wrapper" class="d-flex flex-column">
+	<div id="content">
+		<%- include('../layout/navbar') %>
+		<style>
+			td {
+				padding: 0px 10px;
+				border: 1px solid #aaa;
+			}
+			th {
+				padding: 0px 10px;
+				border: 1px solid #aaa;
+			}
+			th:nth-child(2) {
+				width: 80%;
+			}
+			table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+		</style>
+		<div class="container-fluid">
+			<div class="row mb-3">
+				<div class="col-sm-6">
+					<div class="row "> 
+					 	<a href="/admin-panel/accomplishment/list-all-accomplishments">
+							<button type="button"  class="back-button">
+							 	<i class="fas fa-chevron-left"></i>
+							</button>
+					 	</a>
+					 	<h4 class="card-title mb-0 d-flex flex-column justify-content-center ml-2">
+							<span>
+								Accomplishment Details
+							</span>
+					 	</h4>
+					</div>
+			 	</div>
+				<div class="col-sm-6 d-flex justify-content-end">
+					<% if(accomplishment.approvalStatus === "APPLIED") { %>
+						<button class="btn btn-sm btn-outline-success mr-2" onclick="showApprovePopup('<%=accomplishment._id%>')">
+							<i class="fas fa-thumbs-up"></i> Approve
+						 </button>
+					<% } %>
+					<% if(accomplishment.approvalStatus === "APPLIED") { %>
+						<button class="btn btn-sm btn-outline-danger mr-2" onclick="showRejectPopup('<%=accomplishment._id%>')">
+							<i class="fas fa-trash-alt"></i> Reject
+						</button>
+					<% } %>
+					<button class="btn btn-sm btn-outline-danger mr-2" onclick="showDeletePopup('<%=accomplishment._id%>')">
+						 <i class="fas fa-trash-alt"></i> Delete
+					</button>
+			 	</div>
+			</div>
+			<div class="card rounded">
+				<div class="card-body">
+					<div class="row my-3" style="gap: 10px;">
+						<div class="col-12 d-flex flex-row justify-content-start align-items-center" style="gap: 10px;">
+							<h2>Accomplishment</h2>
+							<% if (accomplishment.approvalStatus === 'APPROVED') { %>
+								<div class="badge bg-gradient-success text-light">
+									APPROVED
+								</div>
+							<% } %>
+							<% if (accomplishment.approvalStatus === 'REJECTED') { %>
+								<div class="badge bg-gradient-danger text-light">
+									REJECTED
+								</div>
+							<% } %>
+							<% if (accomplishment.approvalStatus === 'APPLIED') { %>
+								<div class="badge bg-gradient-warning text-light">
+									APPLIED
+								</div>
+							<% } %>
+						</div>
+						<div class="col-12 row">
+							<div class="col-4">Project Title</div>
+							<div class="col-8"><%= accomplishment.projectTitle %></div>
+						</div>
+						<div class="col-12 row">
+							<div class="col-4">Collaborations</div>
+							<div class="col-8"><%= accomplishment.collaborations %></div>
+						</div>
+						<div class="col-12 row">
+							<div class="col-4">Start Date</div>
+							<div class="col-8"><%= accomplishment.startDate %></div>
+						</div>
+						<div class="col-12 row">
+							<div class="col-4">End Date</div>
+							<div class="col-8"><%= accomplishment.endDate %></div>
+						</div>
+						<div class="col-12 row">
+							<div class="col-4">Primary Objective</div>
+							<div class="col-8"><%= accomplishment.primaryObjective %></div>
+						</div>
+						<div class="col-12 row">
+							<div class="col-4">Key Deliverables</div>
+							<div class="col-8"><%= accomplishment.keyDeliverables %></div>
+						</div>
+						<div class="col-12 row">
+							<div class="col-4">Approach</div>
+							<div class="col-8"><%= accomplishment.approach %></div>
+						</div>
+						<div class="col-12 row">
+							<div class="col-4">Activities</div>
+							<div class="col-8">
+								<table>
+									<thead>
+										<tr>
+											<th>Sl No</th>
+											<th>Activity</th>
+										</tr>
+									</thead>
+									<tbody>
+										<% accomplishment.activities.forEach(function(activity, index) { %>
+											<tr>
+												<td><%= index + 1 %></td>
+												<td><%= activity %></td>
+											</tr>
+										<%})%>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="col-12 row">
+							<div class="col-4">Challenges</div>
+							<div class="col-8">
+								<table>
+									<thead>
+										<tr>
+											<th>Sl No</th>
+											<th>Challenge</th>
+										</tr>
+									</thead>
+									<tbody>
+										<% accomplishment.challenges.forEach(function(challenge, index) { %>
+											<tr>
+												<td><%= index + 1 %></td>
+												<td><%= challenge %></td>
+											</tr>
+										<%})%>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="col-12 row">
+							<div class="col-4">Educational Impact</div>
+							<div class="col-8"><%= accomplishment.educationalImpact %></div>
+						</div>
+						<% if(accomplishment.innovativeApproach) {%>
+							<div class="col-12 row">
+								<div class="col-4">Innovative Approach</div>
+								<div class="col-8"><%= accomplishment.innovativeApproach %></div>
+							</div>
+						<%} %>
+						<% if(accomplishment.impactLevel) {%>
+							<div class="col-12 row">
+								<div class="col-4">Impact Level</div>
+								<div class="col-8"><%= accomplishment.impactLevel %></div>
+							</div>
+						<%} %>
+						<% if(accomplishment.lastingImpact) {%>
+							<div class="col-12 row">
+								<div class="col-4">Lasting Impact</div>
+								<div class="col-8"><%= accomplishment.lastingImpact %></div>
+							</div>
+						<%} %>
+						<% if(accomplishment.projectAdequacy) {%>
+							<div class="col-12 row">
+								<div class="col-4">Project Adequacy</div>
+								<div class="col-8"><%= accomplishment.projectAdequacy %></div>
+							</div>
+						<%} %>
+						<div class="col-12 row">
+							<div class="col-4">Achievements</div>
+							<div class="col-8">
+								<table>
+									<thead>
+										<tr>
+											<th>Sl No</th>
+											<th>Achievement</th>
+										</tr>
+									</thead>
+									<tbody>
+										<% accomplishment.achievements.forEach(function(achievement, index) { %>
+											<tr>
+												<td><%= index + 1 %></td>
+												<td><%= achievement %></td>
+											</tr>
+										<%})%>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="col-12 row">
+							<div class="col-4">Testimonials</div>
+							<div class="col-8">
+								<table>
+									<thead>
+										<tr>
+											<th>Sl No</th>
+											<th>Testimonial</th>
+										</tr>
+									</thead>
+									<tbody>
+										<% accomplishment.testimonials.forEach(function(test, index) { %>
+											<tr>
+												<td><%= index + 1 %></td>
+												<td><%= test %></td>
+											</tr>
+										<%})%>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="row gy-5">
+						<h2 class="col-12">Images</h2>
+						<% accomplishment.images.forEach(function(src){ %>
+							<div class="col-sm-6" style="height: 300px; width: 300px; padding: 10px;">
+								<img src="<%=src%>" alt="Photos" style="height: 100%; width: 100%; object-fit: contain;"/>
+							</div>
+						<% }) %>
+					</div>
+					<div class="row gy-5">
+						<h2 class="col-12">Videos</h2>
+						<div class="row col-12">
+							<% accomplishment.videos.forEach(function(src, index){ %>
+								<div class="col-sm-6" style="height: 300px; width: 300px; padding: 10px;">
+									<video src="<%=src%>" style="height: 100%; width: 100%;" controls controlsList="nodownload noremoteplayback noplaybackrate" disablePictureInPicture>
+									</video>
+								</div>
+							<% }) %>
+						</div>
+					</div>
+					<!-- <div class="row gy-5">
+						<h2 class="col-12">Documents</h2>
+						<% accomplishment.documents.forEach(function(src){ %>
+							<div class="col-sm-6" style="height: 300px; width: 300px; padding: 10px;">
+								<iframe src="<%=src%>" width="300px" height="300px" style="height: 300px; width: 300px;"/>
+							</div>
+						<% }) %>
+					</div> -->
+					<div class="row">
+							<h2 class="col-12 mb-3">Owner</h2>
+							<div class="col-sm-6">
+									<div class="mb-2"><strong>Name : </strong> <%=userData.name%></div>
+									<div class="mb-2"><strong>Email : </strong> <%=userData.authId.email%></div>
+									<div class="mb-2"><strong>Contact No : </strong><%=userData.contactNo !==''?userData.contactNo:"N/A" %></div>
+									<div class="mb-2"><strong>Verification Status : </strong>
+											<% if (userData.authId.isVerified==='VERIFIED') { %>
+													<div class="badge bg-gradient-success text-light">
+															Verified
+													</div>
+											<% } else { %>
+													<div class="badge bg-gradient-danger text-light">
+															Not Verified
+													</div>
+											<% } %>
+									</div>
+									<div class="mb-2"><strong>Active Status : </strong>
+											<% if (userData.authId.isActive==='ACTIVE') { %>
+													<div class="badge bg-gradient-success text-light">
+															Active
+													</div>
+											<% } else { %>
+													<div class="badge bg-gradient-danger text-light">
+															Blocked
+													</div>
+											<% } %>
+									</div>
+									<div class="mb-2"><strong>Tagline : </strong><%=userData.tagline !==''?userData.tagline:"N/A" %></div>
+									<div class="mb-2"><strong>Account Type : </strong> <%=userData.accountType !==''?userData.accountType:"N/A" %></div>
+									<div class="mb-2"><strong>User Type 1 : </strong> <%=userData.userType1 !==''?userData.userType1:"N/A"%></div>
+									<div class="mb-2"><strong>User Type 2 : </strong> <%=userData.userType2 !==''?userData.userType2:"N/A"%></div>
+									<div class="mb-2"><strong>User Type 3 : </strong><%=userData.userType3 !==''?userData.userType3:"N/A"%></div>
+									<div class="mb-2"><strong>User Type 4 : </strong><%=userData.userType4 !==''?userData.userType4:"N/A" %></div>
+		
+							</div>
+							<div class="col-sm-6">
+									<div class="mb-2"><strong>User Type 5 : </strong><%=userData.userType5 !==''?userData.userType5 :"N/A" %></div> 
+									<div class="mb-2"><strong>Company Email : </strong><%= userData.comEmail !==''?userData.comEmail:"N/A"%></div>
+									<div class="mb-2"><strong>City : </strong> <%=userData.city !==''?userData.city:"N/A" %></div>
+									<div class="mb-2"><strong>District : </strong> <%=userData.district !==''? userData.district:"N/A" %></div>
+									<div class="mb-2"><strong>State : </strong> <%=userData.state !==''?userData.state:"N/A"%></div>
+									<div class="mb-2"><strong>Country : </strong> <%=userData.country !==''?userData.country:"N/A" %> </div>
+									<div class="mb-2"><strong>Address : </strong> <%=userData.address !==''?userData.address:"N/A" %></div>
+									<div class="mb-2"><strong>Description : </strong><%=userData.description!==''?userData.description:"N/A" %></div>
+									<div class="mb-2"><strong>Website : </strong><%=userData.website!==''?userData.website:"N/A"%></div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="approveConfirmationModal" role="dialog">
+	<div class="modal-dialog" role="document">
+			<div class="modal-content">
+					<div class="modal-header">
+							<h5 class="modal-title" id="approveConfirmationModalLabel">Confirm Approval</h5>
+							<button type="button" class="close" aria-label="Close" onclick="hideApprovePopup()">
+									<span aria-hidden="true">&times;</span>
+							</button>
+					</div>
+					<div class="modal-body">
+							Are you sure you want to approve this achievement?
+					</div>
+					<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="hideApprovePopup()">Cancel</button>
+							<button type="button" class="btn btn-success" onclick="approveAchievement('<%=accomplishment._id%>')">Approve</button>
+					</div>
+			</div>
+	</div>
+</div>
+<div class="modal fade" id="rejectConfirmationModal" role="dialog">
+	<div class="modal-dialog" role="document">
+			<div class="modal-content">
+					<div class="modal-header">
+							<h5 class="modal-title" id="rejectConfirmationModalLabel">Confirm Rejection</h5>
+							<button type="button" class="close" aria-label="Close" onclick="hideRejectPopup()">
+									<span aria-hidden="true">&times;</span>
+							</button>
+					</div>
+					<div class="modal-body">
+							Are you sure you want to reject this achievement?
+					</div>
+					<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="hideRejectPopup()">Cancel</button>
+							<button type="button" class="btn btn-danger" onclick="rejectAchievement('<%=accomplishment._id%>')">Reject</button>
+					</div>
+			</div>
+	</div>
+</div>
+<div class="modal fade" id="deleteConfirmationModal" role="dialog">
+	<div class="modal-dialog" role="document">
+			<div class="modal-content">
+					<div class="modal-header">
+							<h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+							<button type="button" class="close" aria-label="Close" onclick="hideDeletePopup()">
+									<span aria-hidden="true">&times;</span>
+							</button>
+					</div>
+					<div class="modal-body">
+							Are you sure you want to delete this post?
+					</div>
+					<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="hideDeletePopup()">Cancel</button>
+							<button type="button" class="btn btn-danger" onclick="deleteAchievement()">Delete</button>
+					</div>
+			</div>
+	</div>
+</div>
+
+<script>
+	let getDeleted = null
+	let approveId = null
+	let rejectId = null
+
+	function showApprovePopup(id) {
+		const modal = document.getElementById('approveConfirmationModal')
+		approveId = id;
+		modal.classList.add("show")		
+	}
+
+	function hideApprovePopup() {
+		approveId = null;
+		const modal = document.getElementById('approveConfirmationModal')	
+		modal.classList.remove("show")	
+	}
+
+	function showRejectPopup(id) {
+		const modal = document.getElementById('rejectConfirmationModal')
+		reject = id;
+		modal.classList.add("show")		
+	}
+
+	function hideRejectPopup() {
+		rejectId = null;
+		const modal = document.getElementById('rejectConfirmationModal')	
+		modal.classList.remove("show")
+	}
+
+	function showDeletePopup(id) {
+		const modal = document.getElementById('deleteConfirmationModal')	
+		getDeleted = id;
+		modal.classList.add("show")
+	}
+
+	function hideDeletePopup() {
+		getDeleted = null;
+		const modal = document.getElementById('deleteConfirmationModal')	
+		modal.classList.remove("show")
+	}
+
+	async function deleteAchievement() {
+		try {
+			const resp = await fetch(`../delete/${getDeleted}`, {method: "DELETE"})
+			const data = await resp.json()
+			if(data.success) {
+				window.location='/admin-panel/accomplishment/list-all-accomplishments'
+			}
+			hideDeletePopup()
+			
+		} catch(err) {
+			window.alert(err.message)
+			console.error(err)
+			getDeleted = null
+			hideDeletePopup()
+		}
+	}
+
+	async function approveAchievement(id) {
+		const res = await fetch("../approve-accomplishment/" + id, {method: "GET"})
+		const data = await res.json()
+		if(data.success) {
+			window.alert(data.message)
+			self.location.reload()
+		}
+		hideApprovePopup();
+	}
+
+	async function rejectAchievement(id) {
+		const res = await fetch("../reject-accomplishment/" + id, {method: "GET"})
+		const data = await res.json()
+		if(data.success) {
+			window.alert(data.message)
+			self.location.reload()
+		}
+		hideRejectPopup();
+	}
+</script>

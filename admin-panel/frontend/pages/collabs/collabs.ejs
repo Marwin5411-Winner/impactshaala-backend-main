@@ -1,0 +1,403 @@
+<%- include('../layout/head') %>
+	<%- include('../layout/sidebar') %>
+		<!-- End of Sidebar -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->
+				<%- include('../layout/navbar') %>
+					<!-- End of Topbar -->
+
+					<!-- Begin Page Content -->
+					<div class="container-fluid">
+						<!-- Page Heading -->
+						<h1 class="h3 mb-2 text-gray-800">Collaboration</h1>
+
+						<div mt-4 mb-4 class="d-flex flex-row justify-content-end">
+							<button type="button" class="btn btn-primary" onclick="addNewCollabTag()">Add collab tag</button>
+						</div>
+
+
+						<% if (!collabKeywords || collabKeywords.length===0 ) { %>
+							<div class="alert alert-info" role="alert">
+								No collaborations tags found.
+							</div>
+							<% } else { %>
+								<!-- DataTables -->
+								<div class="card shadow mb-4 mt-4">
+									<div class="card-body">
+										<div class="table-responsive">
+											<table class="table table-hover text-center">
+												<h4 class="mb-3">Collab Tags Lists</h4>
+												<label>
+													<input type="search" class="search form-control form-control-md my-4" id="searchInput"
+														placeholder="Search">
+												</label>
+												<thead>
+													<tr>
+														<th scope="col">Sl. No</th>
+														<th scope="col">Collab Tags</th>
+														<th scope="col">Action</th>
+													</tr>
+												</thead>
+												<tbody id="collabTagTableBody">
+													<% collabKeywords.forEach(function(collabKeyword,index){%>
+														<tr>
+															<td>
+																<%= index + 1 %>
+															</td>
+															<td>
+																<%=collabKeyword.collabTag%>
+															</td>
+															<td>
+																<div class="dropdown">
+																	<i class="fa fa-ellipsis-v" style="font-weight: medium; cursor: pointer;"
+																		onclick="toggleDropdown(event, '<%= index %>')"></i>
+																	<div id="dropdownMenu<%= index %>" class="dropdown-menu" style="display: none;">
+																		<button class="dropdown-item" style="cursor: pointer;"
+																			onclick="editCollabTagModal('<%= collabKeyword.collabTag %>','<%= collabKeyword._id %>')">Edit</button>
+																		<button class="dropdown-item" style="cursor: pointer;"
+																			onclick="deleteCollabTagModal('<%= collabKeyword._id %>')">Delete</button>
+																	</div>
+																</div>
+															</td>
+														</tr>
+														<% })%>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<%} %>
+									<!-- End of Datatables -->
+					</div>
+
+					<!-- /.container-fluid -->
+			</div>
+			<!-- End of Main Content -->
+
+
+			<!-- Add a new Collab Tag -->
+			<div class="modal fade" id="collabTagModal" tabindex="-2" role="dialog" aria-labelledby="collabTagModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title text-dark font-weight-bolder" id="collabTagModalLabel">
+								Add Collab Tags:
+							</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<div class="input-group">
+									<input type="text" class="form-control" id="collabTagId" placeholder="Enter new collab tag">
+								</div>
+								<div class="invalid-feedback" id="emptyFieldMessage" style="display: none;">Input field can't be empty
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">
+								Close
+							</button>
+							<button type="button" onclick="createNewCollabTags()" class="btn btn-primary">
+								Add
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Collab Tag modal ends here -->
+
+			<!-- Edit Collab Tag Modal begins here -->
+			<div class="modal fade" id="editCollabTagModal" tabindex="-2" role="dialog"
+				aria-labelledby="editCollabTagModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title text-dark font-weight-bolder" id="editCollabTagModalLabel">
+								Edit Collab Tags:
+							</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<div class="input-group">
+									<input type="text" class="form-control" id="editCollabTagId" placeholder="Enter new collab tag">
+								</div>
+								<div class="invalid-feedback" id="emptyFieldMessageForEdit" style="display: none;">Input field can't be
+									empty</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">
+								Close
+							</button>
+							<button type="button" onclick="editCollabTag()" class="btn btn-primary">
+								Save Changes
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Edit Collab Tag ends here -->
+
+			<!-- Delete collab dialog starts here -->
+			<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog"
+				aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							Are you sure you want to delete this user?
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+							<button type="button" class="btn btn-danger" onclick="deleteCollabTag()">Delete</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal fade" id="successModal">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title text-dark font-weight-bolder" id="successHeader">
+								Success
+							</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p id="successMessage">Message</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" onClick="handleCloseSuccessModal()">
+								Close
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Delete collab dialog ends here -->
+
+			<script>
+				let getCollabTagId;
+
+				// JavaScript function to toggle dropdown visibility
+				function toggleDropdown(event, index) {
+					event.stopPropagation(); // Prevent table row click event from firing
+					var dropdownMenu = document.getElementById('dropdownMenu' + index);
+					dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+				}
+
+				// Close dropdown when clicking outside
+				document.addEventListener('click', function (event) {
+					var dropdownMenus = document.querySelectorAll('.dropdown-menu');
+					dropdownMenus.forEach(function (menu) {
+						menu.style.display = 'none';
+					});
+				});
+
+				// collabTagModal
+				function addNewCollabTag() {
+					// Clear the input field before showing the modal
+					$('#collabTagId').val('');
+					$('#collabTagModal').modal('show');
+				}
+
+				// function to create new collab Tags
+				function createNewCollabTags() {
+					let collabTag = document.getElementById('collabTagId').value;
+
+					console.log(`New collabTag : ${collabTag}`);
+
+					if (!collabTag.trim()) {
+						// Display error message if input field is empty
+						document.getElementById('emptyFieldMessage').style.display = 'block';
+						return;
+					}
+
+					// call a api to create collab tag
+					fetch(`add-new-collab-tag`, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							collabTag: collabTag
+						})
+					}).then(async (response) => {
+							if(response.ok)
+								return response.json()
+							else {
+								const body = await response.json()
+								return Promise.reject(body)
+							}
+						})
+						.then(data => {
+							handleShowSuccessModal("Add Collaboration Tag", "Successfully Added A Collaboration Tag")
+							$('#collabTagModal').modal('hide');
+						})
+						.catch(error => {
+							// Handle any errors
+							if(error.message) {
+								window.alert(error.message)
+								$('#collabTagModal').modal('hide');
+								return;
+							}
+							console.error('Error:', error);
+						});
+				}
+
+
+				// edit collabTagModal
+				function editCollabTagModal(collabTag, collabTagId) {
+					// Prefill the input field with the collab tag value
+					document.getElementById('editCollabTagId').value = collabTag;
+					getCollabTagId = collabTagId;
+					console.log(`getCollabTagId inside editCollabTagModal: ${getCollabTagId}`);
+					$('#editCollabTagModal').modal('show');
+				}
+
+				// edit collab Tag function
+				function editCollabTag() {
+					let collabTag = document.getElementById('editCollabTagId').value;
+
+					console.log(`New collabTag : ${collabTag} `);
+
+					if (!collabTag.trim()) {
+						// Display error message if input field is empty
+						document.getElementById('emptyFieldMessageForEdit').style.display = 'block';
+						return;
+					}
+
+
+					console.log(`getCollabTagId : ${getCollabTagId}`);
+					// call a api to create collab tag
+					fetch(`edit-collab-tag?uid=${getCollabTagId}`, {
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							collabTag: collabTag
+						})
+					}).then(response => response.json())
+						.then(data => {
+							$('#editCollabTagModal').modal('hide');
+							handleShowSuccessModal("Edit", "Successfully Edited Collaboration Tag!!")
+						})
+						.catch(error => {
+							// Handle any errors
+							console.error('Error:', error);
+						});
+				}
+
+
+				// delete collabTagModal 
+				function deleteCollabTagModal(collabTagId) {
+					getCollabTagId = collabTagId;
+					$('#deleteConfirmationModal').modal('show');
+				}
+
+				// delete collabTag function
+				function deleteCollabTag() {
+
+					console.log(`getCollabTagId for delete: ${getCollabTagId}`);
+
+					// call a api to create collab tag
+					fetch(`delete-collab-tag?uid=${getCollabTagId}`, {
+						method: 'DELETE',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+					}).then(response => response.json())
+						.then(data => {
+							$('#deleteConfirmationModal').modal('hide');
+							handleShowSuccessModal("Delete", "Successfully Deleted The Collaboration Tag")							
+						})
+						.catch(error => {
+							// Handle any errors
+							console.error('Error:', error);
+						});
+				}
+
+
+				// search functionality
+
+				var input = document.getElementById("searchInput");
+				input.addEventListener("input", function (event) {
+					var filter = event.target.value.toUpperCase();
+					var table = document.getElementById("collabTagTableBody");
+					var rows = table.getElementsByTagName("tr");
+
+					for (var i = 0; i < rows.length; i++) {
+						var collabTagCell = rows[i].getElementsByTagName("td")[1];
+						if (collabTagCell) {
+							var collabTagText = collabTagCell.textContent || collabTagCell.innerText;
+							if (collabTagText.toUpperCase().indexOf(filter) > -1) {
+								rows[i].style.display = "";
+							} else {
+								rows[i].style.display = "none";
+							}
+						}
+					}
+				});
+
+				// Function to validate input and allow only alphanumeric characters
+				function validateInput(event) {
+					const inputField = event.target;
+					let inputValue = inputField.value;
+					const alphanumericRegex = /^[a-zA-Z0-9]*$/; // Regular expression to allow only alphanumeric characters
+					const maxLength = 10; // Maximum allowed length for the input field
+
+					// Remove special characters
+					inputValue = inputValue.replace(/[^a-zA-Z0-9\s]/g, '');
+
+					// Truncate input value if it exceeds the maximum length
+					if (inputValue.length > maxLength) {
+						inputValue = inputValue.substring(0, maxLength);
+					}
+
+					// Update input field value
+					inputField.value = inputValue;
+				}
+				// Attach event listener to input field
+				document.getElementById('collabTagId').addEventListener('input', validateInput);
+				document.getElementById('editCollabTagId').addEventListener('input', validateInput);
+
+				function handleShowSuccessModal(successHeaderText, successMessageText){
+					const successModal = document.getElementById("successModal")
+					
+					const successHeader = document.getElementById("successHeader")
+					successHeader.innerText = successHeaderText
+					const successMessage = document.getElementById("successMessage")
+					successMessage.innerText = successMessageText
+					
+					$("#successModal").modal("show")
+				}
+
+				function handleCloseSuccessModal() {
+					self.location.reload()
+				}
+
+			</script>
+
+			<!-- Footer -->
+			<%- include('../layout/footer') %>
+				<%- include('../layout/tail') %>

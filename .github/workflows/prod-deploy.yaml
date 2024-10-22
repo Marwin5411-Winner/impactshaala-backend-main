@@ -1,0 +1,16 @@
+name: Production - Deploy of impactshaala-backend
+
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  deploy:
+    runs-on: [self-hosted,production,backend]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: NPM install and build 
+        run: bash prod-deploy.sh

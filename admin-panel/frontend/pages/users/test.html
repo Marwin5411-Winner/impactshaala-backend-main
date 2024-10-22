@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.dropbtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #2980B9;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+</style>
+</head>
+<body style="background-color:white;">
+
+<h2>Clickable Dropdown</h2>
+<p>Click on the button to open the dropdown menu.</p>
+
+<!-- <div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn"><i class="fas fa-filter"></i> Filter</button>
+  <div id="myDropdown" class="dropdown-content" onclick="stopPropagation(event)">
+    <div class="row mb-3">
+        <div class="col-md-3">
+          <select class="form-control filter-dropdown" id="filterAccountType" data-column="5">
+            <option value="">Filter by Account Type</option>
+            <% const accountTypes = new Set(); %>
+            <% userLists.forEach(function(userList) { %>
+              <% accountTypes.add(userList.accountType); %>
+            <% }); %>
+            <% accountTypes.forEach(function(accountType) { %>
+              <option value="<%= accountType %>"><%= accountType %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <select class="form-control filter-dropdown" id="filterUserType1" data-column="6">
+            <option value="">Filter by User Type 1</option>
+            <% const userType1 = new Set(); %>
+            <% userLists.forEach(function(userList) { %>
+              <% userType1.add(userList.userType1); %>
+            <% }); %>
+            <% userType1.forEach(function(userType1) { %>
+              <option value="<%= userType1 %>"><%= userType1 %></option>
+            <% }); %>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <select class="form-control filter-dropdown" id="filterUserType2" data-column="7">
+            <option value="">Filter by User Type 2</option>
+            <% const userType2 = new Set(); %>
+            <% userLists.forEach(function(userList) { %>
+              <% userType2.add(userList.userType2); %>
+            <% }); %>
+            <% userType2.forEach(function(userType2) { %>
+              <option value="<%= userType2 %>"><%= userType2 %></option>
+            <% }); %>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+            <select class="form-control filter-dropdown" id="filterUserType3" data-column="8">
+                <option value="">Filter by User Type 3</option>
+                <% const userType3Set = new Set(); %>
+                <% userLists.forEach(function(userList) { %>
+                  <% if (userList.userType3) { %>
+                    <% userType3Set.add(userList.userType3); %>
+                  <% } %>
+                <% }); %>
+                <% userType3Set.forEach(function(userType3) { %>
+                  <option value="<%= userType3 %>"><%= userType3 %></option>
+                <% }); %>
+              </select>
+          </div>
+
+          <div style="margin-top: 25px; margin-bottom: 30px;">
+            
+        </div>
+
+          <div class="col-md-3">
+            <select class="form-control filter-dropdown" id="filterUserType4" data-column="9">
+                <option value="">Filter by User Type 4</option>
+                <% const userType4Set = new Set(); %>
+                <% userLists.forEach(function(userList) { %>
+                  <% if (userList.userType4) { %>
+                    <% userType4Set.add(userList.userType4); %>
+                  <% } %>
+                <% }); %>
+                <% userType4Set.forEach(function(userType4) { %>
+                  <option value="<%= userType4 %>"><%= userType4 %></option>
+                <% }); %>
+              </select>
+          </div>
+
+        <div class="col-md-3">
+            <select class="form-control filter-dropdown" id="filterUserType5" data-column="10">
+                <option value="">Filter by User Type 5</option>
+                <% const userType5Set = new Set(); %>
+                <% userLists.forEach(function(userList) { %>
+                  <% if (userList.userType5) { %>
+                    <% userType5Set.add(userList.userType5); %>
+                  <% } %>
+                <% }); %>
+                <% userType5Set.forEach(function(userType5) { %>
+                  <option value="<%= userType5 %>"><%= userType5 %></option>
+                <% }); %>
+              </select>
+          </div>
+
+          <button class="close-btn" onclick="closeDropdown()">Close</button>
+
+
+      </div>
+  </div>
+</div> -->
+
+
+<div></div>
+
+
+<div class="col-sm-6 d-flex justify-content-end">
+  <div class="dropdown">
+      <button onclick="myFunction()" class="btn btn-primary dropbtn my-4"><i class="fas fa-edit"></i> Edit</button>
+      <div id="myDropdown" class="dropdown-content" onclick="stopPropagation(event)">
+          <!-- change password -->
+          <!-- <button class="btn btn-sm btn-outline-success mr-2" onclick="editUserPassword()">
+              <i class=""></i> Change Password
+          </button> -->
+          <a onclick="editUserPassword()">Change Password</a>
+          <!-- Edit Verification Status -->
+          <!-- <button class="btn btn-sm btn-outline-primary mr-2" onClick="editVerificationStatus('<%= userData.authId._id %>','<%= userData.authId.isVerified %>') ">
+              <i class="fas fa-edit"></i> Edit Verification Status
+          </button> -->
+          <a onclick="editVerificationStatus('<%= userData.authId._id %>','<%= userData.authId.isVerified %>')">Edit Verification Status</a>
+          <!-- Edit Active Status -->
+          <!-- <button class="btn btn-sm btn-outline-primary mr-2" onClick="editUserActiveStatus('<%= userData.authId._id %>','<%= userData.authId.isActive %>')">
+              <i class="fas fa-edit"></i> Edit Active Status
+          </button> -->
+          <a onclick="editUserActiveStatus('<%= userData.authId._id %>','<%= userData.authId.isActive %>')">Edit Active Status</a>
+
+          <!-- Delete -->
+          <!-- <button class="btn btn-sm btn-outline-danger mr-2" onclick="showDeleteConfirmation()">
+              <i class="fas fa-trash-alt"></i> Delete
+          </button> -->
+
+          <a onclick="showDeleteConfirmation()">Delete</a>
+
+      </div>
+  </div>
+</div>
+
+
+<script>
+    /* When the user clicks on the button, 
+    toggle between hiding and showing the dropdown content */
+    function myFunction() {
+      var dropdown = document.getElementById("myDropdown");
+      if (dropdown.classList.contains("show")) {
+        dropdown.classList.remove("show");
+      } else {
+        dropdown.classList.add("show");
+      }
+    }
+    
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+      if (!event.target.matches('.dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+
+
+    // Close the dropdown when the close button is clicked
+function closeDropdown() {
+    var dropdown = document.getElementById("myDropdown");
+    if (dropdown.classList.contains("show")) {
+        dropdown.classList.remove("show");
+    }
+}
+
+// Stop event propagation
+function stopPropagation(event) {
+    event.stopPropagation();
+}
+
+
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+          }
+      }
+  }
+}
+
+// Prevent dropdown from closing when clicking inside it
+function stopPropagation(event) {
+  event.stopPropagation();
+}
+
+
+
+
+    </script>
+    
+
+    
+
+</body>
+</html>
