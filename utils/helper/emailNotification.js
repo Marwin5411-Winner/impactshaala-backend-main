@@ -30,13 +30,20 @@ async function sendNotificationEmail({ email, userName, notificationType, notifi
         html: html // The generated HTML content from the EJS template
       };
 
-      // Send the email using the sendEmail function
-      const mail = await sendEmail(emailOptions);
 
-      if (!mail) {
-        console.error("Email failed to send");
-        return { success: false, message: "Email not sent" };
+      try {
+        // Send the email using the sendEmail function
+        const mail = await sendEmail(emailOptions);
+
+        if (!mail) {
+          console.error("Email failed to send");
+          return { success: false, message: "Email not sent" };
+        }
+
+      } catch (e) {
+        console.error("Error Of sending Email: " + e);
       }
+
 
       console.log("Email sent successfully");
       return { success: true, message: "Email sent successfully" };

@@ -37,7 +37,7 @@ const sendMessage = async (req, res) => {
         );
       } catch (err) {
         console.log(err);
-        res.status(500).json({
+        return res.status(500).json({
           success: false,
           message: "Could not save the attachment",
         });
@@ -55,7 +55,8 @@ const sendMessage = async (req, res) => {
   chat
     .save()
     .then(async (data) => {
-      res.json({
+      await createNotification(receiverId, "Someone has sent message to you", "MESSAGE");
+      return res.json({
         success: true,
         message: "Message sent successfully",
         data,
@@ -63,7 +64,7 @@ const sendMessage = async (req, res) => {
 
 	  const receiver = await Authentication.findByID(receiverId);
 
-	  await createNotification(receiverId, "Someone has sent message to you", "MESSAGE");
+	  
 
 	  await sendNotificationEmail({
 		email: receiver.email,
@@ -74,7 +75,7 @@ const sendMessage = async (req, res) => {
 	  });
     })
     .catch((err) => {
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: "Couldn't send chat",
       });

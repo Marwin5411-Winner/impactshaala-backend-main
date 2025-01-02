@@ -13,7 +13,13 @@ const transporter = createTransport({
 
 
 const sendEmail = async(mailOptions) => {
+
+  try {
     await transporter.sendMail(mailOptions);
+  } catch (e) {
+    console.error("Error Email: " + e);
+  }
+    
 }
 
 export default sendEmail;
